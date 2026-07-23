@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-top: #0a0e27;
+      --bg-bottom: #000000;
+      --blue-accent: #5b8def;
+      --blue-glow: #4f8ff7;
+      --card-bg: rgba(255, 255, 255, 0.04);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-primary: #eef1fa;
+      --text-muted: #8993b3;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: linear-gradient(180deg, var(--bg-top) 0%, #050714 50%, var(--bg-bottom) 100%);
+      font-family: 'Inter', Arial, sans-serif;
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    .stars {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      background: #ffffff;
+      border-radius: 50%;
+      animation: twinkle ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.15; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.15); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .star { animation: none; opacity: 0.5; }
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    .eyebrow {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--blue-accent);
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 32px;
+      margin: 0 0 28px 0;
+      letter-spacing: -0.01em;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    input[type=text], select, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      margin-bottom: 20px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input[type=text]:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--blue-accent);
+      box-shadow: 0 0 0 3px rgba(91, 141, 239, 0.18);
+    }
+
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238993b3' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      margin-bottom: 12px;
+    }
+
+    textarea { resize: vertical; min-height: 56px; margin-bottom: 0; }
+
+    .q-block {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      transition: border-color 0.2s;
+    }
+
+    .q-block:hover { border-color: rgba(91, 141, 239, 0.35); }
+
+    .category {
+      display: inline-block;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue-accent);
+      background: rgba(91, 141, 239, 0.12);
+      border: 1px solid rgba(91, 141, 239, 0.25);
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+
+    .q-text {
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 13px 24px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+    }
+
+    button:active { transform: scale(0.98); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue-accent), #3a6fd8);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(91, 141, 239, 0.35);
+    }
+
+    .btn-primary:hover { box-shadow: 0 6px 26px rgba(91, 141, 239, 0.5); }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-muted);
+      border: 1px solid var(--card-border);
+    }
+
+    .btn-secondary:hover { color: var(--text-primary); border-color: rgba(255,255,255,0.2); }
+
+    #status {
+      margin-top: 16px;
+      font-size: 14px;
+      color: var(--blue-accent);
+      min-height: 20px;
+    }
+
+    #questions { margin-bottom: 8px; }
+
+    .loading-text { color: var(--text-muted); font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+
+  <div class="page">
+    <div class="eyebrow">Founder's Office · Nutrabay</div>
+    <h2>Candidate Scoring</h2>
+
+    <label>Candidate Name</label>
+    <input type="text" id="candidateName" placeholder="Enter full name">
+
+    <div id="questions"><p class="loading-text">Loading questions…</p></div>
+
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="fillSampleData()">Fill Sample Data</button>
+      <button class="btn-primary" onclick="submitForm()">Submit Scores</button>
+    </div>
+    <p id="status"></p>
+  </div>
+
+  <script>
+    // Generate a twinkling starfield
+    (function initStars() {
+      const container = document.getElementById('stars');
+      const count = 140;
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        const size = Math.random() * 2 + 0.5;
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        star.style.top = Math.random() * 100 + 'vh';
+        star.style.left = Math.random() * 100 + 'vw';
+        star.style.animationDuration = (2 + Math.random() * 3) + 's';
+        star.style.animationDelay = (Math.random() * 4) + 's';
+        container.appendChild(star);
+      }
+    })();
+
+    let questions = [];
+
+    const SAMPLE_CANDIDATE_NAME = "Ananya Reddy";
+    const SAMPLE_ANSWERS = [
+      { score: 4, notes: "Clear articulation of why D2C growth specifically — mentioned wanting ownership over metrics rather than just reporting them." },
+      { score: 3, notes: "Reasonable answer but slightly generic on long-term career direction." },
+      { score: 5, notes: "Walked through the estimation cleanly, stated assumptions before calculating." },
+      { score: 4, notes: "Correct approach to the funnel math, minor hesitation on edge cases." },
+      { score: 4, notes: "Good grasp of cohort logic, could tighten up statistical reasoning slightly." },
+      { score: 5, notes: "Strong, specific RCA walkthrough — went three levels deep unprompted, exactly what the JD asks for." },
+      { score: 4, notes: "Solid familiarity with BI tools (mentioned Metabase); less depth on advanced modelling." },
+      { score: 4, notes: "Gave a real example of using AI/LLM tools to speed up analysis — matches the AI-first requirement well." },
+      { score: 3, notes: "Competent but less confident discussing competitor benchmarking specifics." },
+      { score: 4, notes: "Structured thinking came through clearly in how she broke down the ambiguous problem." },
+      { score: 5, notes: "Excellent example of taking ownership on an unassigned problem — proactive and outcome-focused." },
+      { score: 4, notes: "Communicated a complex finding simply; good stakeholder instinct." },
+      { score: 4, notes: "Self-aware answer about handling a past failure — took accountability without over-explaining." },
+      { score: 4, notes: "Handled the pressure-situation question well, stayed composed and specific." },
+    ];
+
+    google.script.run.withSuccessHandler(renderQuestions).getFinalQuestions();
+
+    function renderQuestions(qs) {
+      questions = qs;
+      const container = document.getElementById('questions');
+      container.innerHTML = qs.map((q, i) => `
+        <div class="q-block">
+          <span class="category">${q.category}</span>
+          <div class="q-text">${q.question}</div>
+          <label>Score</label>
+          <select id="score-${i}">
+            <option value="1">1 — Poor</option>
+            <option value="2">2 — Below Expectations</option>
+            <option value="3" selected>3 — Meets Expectations</option>
+            <option value="4">4 — Strong</option>
+            <option value="5">5 — Excellent</option>
+          </select>
+          <label>Notes</label>
+          <textarea id="notes-${i}" rows="2" placeholder="Optional observation..."></textarea>
+        </div>
+      `).join('');
+    }
+
+    function fillSampleData() {
+      document.getElementById('candidateName').value = SAMPLE_CANDIDATE_NAME;
+      questions.forEach((q, i) => {
+        if (SAMPLE_ANSWERS[i]) {
+          document.getElementById(`score-${i}`).value = SAMPLE_ANSWERS[i].score;
+          document.getElementById(`notes-${i}`).value = SAMPLE_ANSWERS[i].notes;
+        }
+      });
+    }
+
+    function submitForm() {
+      const candidateName = document.getElementById('candidateName').value;
+      if (!candidateName) { alert('Enter candidate name'); return; }
+      const answers = questions.map((q, i) => ({
+        category: q.category,
+        question: q.question,
+        score: document.getElementById(`score-${i}`).value,
+        notes: document.getElementById(`notes-${i}`).value,
+      }));
+      document.getElementById('status').innerText = 'Submitting...';
+      google.script.run.withSuccessHandler(() => {
+        document.getElementById('status').innerText = '✓ Submitted successfully!';
+      }).submitScores({ candidateName, answers });
+    }
+  </script>
+</body>
+</html>
